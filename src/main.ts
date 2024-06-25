@@ -1,4 +1,5 @@
 import { k } from "./kaboomCtx";
+import { makeMap } from "./utils";
 
 async function gameSetup() {
     k.loadSprite("assets","./kirby-like.png",{
@@ -16,6 +17,21 @@ async function gameSetup() {
             bird : { from :27 ,to : 28 , speed:4, loop:true }
         }
     })
+    k.loadSprite("level-1","./level-1.png");
+
+    const {map: level1Layout, spawnPoints: level1SpawnPoints} = await makeMap(k,"level-1");
+
+    k.scene("level-1",()=>{
+        k.setGravity(2100);
+        k.add([
+            k.rect(k.width(),k.height()),
+            k.color(k.Color.fromHex("#f7d7db"))
+        ]);
+
+        k.add(level1Layout);
+    })
+
+    k.go("level-1");
     
 }
 gameSetup();
